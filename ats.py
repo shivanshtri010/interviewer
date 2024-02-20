@@ -34,6 +34,12 @@ with st.sidebar:
     st.subheader("Connect with Shivansh:")
     st.write("[LinkedIn | ](https://linkedin.com/in/shivanshtri010)", "[ GitHub](https://github.com/shivanshtri010)", "[ | Instagram](https://www.instagram.com/shivanshtripathi010/)")
 
+    st.subheader("How to start:")
+    st.write("Start with the greeting, like")
+    st.write("Good morning or afternoon sir")
+    st.write("or just with hello sir")
+        
+
 if "app_key" in st.session_state:
     uploaded_file = st.file_uploader("Upload PDF Resume", type="pdf", help="Please upload the candidate's PDF resume")
     if uploaded_file:
