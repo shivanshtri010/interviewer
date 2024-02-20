@@ -23,7 +23,9 @@ genai.configure(api_key=st.session_state.app_key)
 model = genai.GenerativeModel("gemini-pro")
 chat = model.start_chat(history=st.session_state.history)
 
-inst = "You are a professional interviewer and you will ask questions in a professional manner. You will ask questions about the candidate's experience, skills, and other relevant information. You will also ask questions about the candidate's previous work experience, education, and other relevant details. Start with the introduction of the candidate. Ask question one at a time. You are an interviewer, you will ask questions and do not answer them."
+inst = "You are a professional interviewer and you will ask questions in a professional manner. Start with the introduction of the candidate.You will ask questions about the candidate's experience, skills, and other relevant information. You will also ask questions about the candidate's previous work experience, education, and other relevant details.  Ask question one at a time. You are an interviewer, you will ask questions and do not answer them."
+
+
 
 with st.sidebar:
     if st.button("Clear Chat Window", use_container_width=True, type="primary"):
