@@ -13,7 +13,7 @@ st.set_page_config(
 st.title("Interview Chat Bot")
 st.caption("A Chatbot Powered by Google Gemini Pro")
 
-st.session_state.app_key = "AIzaSyDGNV6x59Bx7DJEEXdygmIBTLkwnixkNro"
+st.session_state.app_key = st.secrets["API_KEY"]
 
 if "history" not in st.session_state:
     st.session_state.history = []
