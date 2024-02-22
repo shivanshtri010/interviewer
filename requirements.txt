@@ -5,4 +5,4 @@ pyttsx3
 SpeechRecognition
 gtts
 playsound
-espeak
+
