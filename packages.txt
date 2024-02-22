@@ -3,4 +3,9 @@ portaudio19-dev
 python3-all-dev
 libsndfile1-dev
 libasound2-dev
+libasound-dev 
+libportaudio2 
+libportaudiocpp0
+ffmpeg 
+libav-tools
 
