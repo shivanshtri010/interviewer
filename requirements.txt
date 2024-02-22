@@ -1,3 +1,7 @@
 streamlit
 google-generativeai
 PyPDF2
+pyttsx3
+SpeechRecognition
+gtts
+playsound
