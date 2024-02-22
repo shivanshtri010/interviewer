@@ -5,5 +5,4 @@ pyttsx3
 SpeechRecognition
 gtts
 playsound
-pygobject
 pyaudio
