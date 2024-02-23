@@ -6,5 +6,5 @@ libasound2-dev
 libasound-dev 
 libportaudio2 
 libportaudiocpp0
-libav-tools
+
 
