@@ -8,6 +8,10 @@ import speech_recognition as sr
 from gtts import gTTS
 import playsound
 import json
+import sounddevice as sd
+import numpy as np
+import scipy.io.wavfile as wav
+from pathlib import Path
 
 # Set the page config
 st.set_page_config(page_title="Interview chat bot")
@@ -30,7 +34,14 @@ engine = pyttsx3.init()
 recognizer = sr.Recognizer()
 
 # Interview instructions
-inst = "You are a professional interviewer and you will ask questions in a professional manner. Start with the introduction of the candidate.You will ask questions about the candidate's experience, skills, and other relevant information. You will also ask questions about the candidate's previous work experience, education, and other relevant details.  Ask question one at a time. You are an interviewer, you will ask questions and do not answer them. Also ask technical question related to the candidate's profile"
+inst = "You are a professional interviewer and you will ask questions in a professional manner. Start with the introduction of the candidate. You will ask questions about the candidate's experience, skills, and other relevant information. You will also ask questions about the candidate's previous work experience, education, and other relevant details. Ask one question at a time. You are an interviewer; you will ask questions and do not answer them. Also, ask technical questions related to the candidate's profile."
+
+# Record function
+def record_audio(filename='recorded_audio.wav', duration=5, sample_rate=44100):
+    print(f"Recording... ({duration} seconds)")
+    audio_data = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=2, dtype='int16')
+    sd.wait()
+    wav.write(filename, sample_rate, audio_data)
 
 # Sidebar content
 with st.sidebar:
@@ -67,13 +78,15 @@ if "app_key" in st.session_state:
         if st.button("Speak"):
             with st.spinner("Listening..."):
                 st.write("Speak now...")
-                with sr.Microphone() as source:
-                    audio = recognizer.listen(source)
+                record_audio('user_input.wav', duration=5)  # Adjust duration as needed
                 st.success("Processing...")
 
             try:
-                # Convert speech to text
+                # Convert recorded speech to text
+                with sr.AudioFile('user_input.wav') as source:
+                    audio = recognizer.record(source)
                 user_input = recognizer.recognize_google(audio)
+
                 with st.chat_message("user"):
                     st.markdown(user_input)
 
