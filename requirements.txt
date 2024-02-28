@@ -1,8 +1,10 @@
-streamlit
 google-generativeai
+streamlit
 PyPDF2
 pyttsx3
 SpeechRecognition
 gtts
 playsound
-pyaudio
+numpy
+scipy
+sounddevice
