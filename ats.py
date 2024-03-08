@@ -4,14 +4,12 @@ import time
 import random
 import PyPDF2 as pdf
 import pyttsx3
-import speech_recognition as sr
 from gtts import gTTS
 import playsound
 import json
-import sounddevice as sd
-import numpy as np
-import scipy.io.wavfile as wav
 from pathlib import Path
+from http.server import SimpleHTTPRequestHandler
+import socketserver
 
 # Set the page config
 st.set_page_config(page_title="Interview chat bot")
@@ -29,9 +27,6 @@ chat = model.start_chat(history=st.session_state.get("history", []))
 
 # Initialize text-to-speech engine
 engine = pyttsx3.init()
-
-# Initialize speech recognition
-recognizer = sr.Recognizer()
 
 # Interview instructions
 inst = "You are a professional interviewer and you will ask questions in a professional manner. Start with the introduction of the candidate. You will ask questions about the candidate's experience, skills, and other relevant information. You will also ask questions about the candidate's previous work experience, education, and other relevant details. Ask one question at a time. You are an interviewer; you will ask questions and do not answer them. Also, ask technical questions related to the candidate's profile."
@@ -121,3 +116,69 @@ if "app_key" in st.session_state:
                 st.error(f"Speech Recognition request failed: {e}")
 
             st.session_state.history.extend(chat.history)  # Preserve chat history
+
+# Microphone Access Example
+if st.button("Microphone Access Example"):
+    st.subheader("Microphone Access Example")
+    st.markdown("Click the 'Start Recording' button to access the microphone.")
+    
+    st.components.v1.html("""
+        <button id="startButton">Start Recording</button>
+        <button id="stopButton" disabled>Stop Recording</button>
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const startButton = document.getElementById('startButton');
+                const stopButton = document.getElementById('stopButton');
+
+                let mediaRecorder;
+                let audioChunks = [];
+
+                const onSuccess = (stream) => {
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+
+                        // Do something with the recorded audio URL, such as sending it to the server or playing it
+                        console.log('Recording stopped. Audio URL:', audioUrl);
+
+                        // Reset
+                        audioChunks = [];
+                        startButton.disabled = false;
+                        stopButton.disabled = true;
+                    };
+                };
+
+                const onError = (error) => {
+                    console.error('Error accessing microphone:', error);
+                };
+
+                startButton.addEventListener('click', async () => {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        onSuccess(stream);
+
+                        // Start recording
+                        mediaRecorder.start();
+
+                        startButton.disabled = true;
+                        stopButton.disabled = false;
+                    } catch (error) {
+                        onError(error);
+                    }
+                });
+
+                stopButton.addEventListener('click', () => {
+                    // Stop recording
+                    mediaRecorder.stop();
+                });
+            });
+        </script>
+    """)
