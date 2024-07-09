@@ -15,7 +15,7 @@ st.title("Interview Chat Bot")
 st.caption("A Chatbot Powered by Google Gemini Pro")
 
 # Set the API key
-st.session_state.app_key = "AIzaSyDGNV6x59Bx7DJEEXdygmIBTLkwnixkNro"
+st.session_state.app_key = "AIzaSyBplz76I9oWo8uGNdqGsuqB3kcC9_qu5WI"
 
 # Initialize Google Gemini Pro
 genai.configure(api_key=st.session_state.app_key)
